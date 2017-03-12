@@ -50,10 +50,10 @@ namespace aspnetapp
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
 
-            if (env.IsDevelopment())
-            {
+          //  if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
-            }
+            //}
 
              var startupLogger = loggerFactory.CreateLogger<Startup>();
 
