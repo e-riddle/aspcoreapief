@@ -49,10 +49,21 @@ namespace aspnetapp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+             var startupLogger = loggerFactory.CreateLogger<Startup>();
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+             startupLogger.LogInformation("Application startup is complete");
+             
         }
     }
 }
