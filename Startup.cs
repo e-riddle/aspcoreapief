@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using aspnetapp.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+
+using aspnetapp.Data.Repository;
 
 namespace aspnetapp
 {
@@ -28,6 +32,16 @@ namespace aspnetapp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AlbumsContext>(builder =>
+            {
+                var connStr = Configuration.GetConnectionString("DefaultConnection");
+                builder.UseSqlServer(connStr);
+            }
+            );
+
+
+            services.AddTransient<ArtistRepository>();
+
             // Add framework services.
             services.AddMvc();
         }
