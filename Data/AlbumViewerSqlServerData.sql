@@ -1,3 +1,7 @@
+CREATE Database Albums
+GO
+
+
 USE Albums
 GO
 
