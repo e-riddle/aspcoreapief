@@ -1,9 +1,11 @@
-CREATE Database Albums
-GO
+--CREATE Database Albums
+--GO
+
 
 
 USE Albums
 GO
+
 
 /****** Object:  Table [dbo].[Albums]    Script Date: 10/5/2016 10:48:52 AM ******/
 SET ANSI_NULLS ON
