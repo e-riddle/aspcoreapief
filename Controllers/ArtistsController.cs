@@ -27,7 +27,11 @@ namespace aspnetapp.Controllers
             this._logger = logger;
         }
 
-
+        /// <summary>
+        /// Gets me a list of artits
+        /// </summary>
+        /// <returns>Artists</returns>
+        // GET api/values
         [HttpGet("api/artists")]
         public async Task<List<Artists>> Get()
         {

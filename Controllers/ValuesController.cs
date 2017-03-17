@@ -9,6 +9,10 @@ namespace aspnetapp.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+         /// <summary>
+        /// Get me some values
+        /// </summary>
+        /// <returns>string</returns>
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
@@ -16,6 +20,11 @@ namespace aspnetapp.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        /// <summary>
+        /// Get me a value by id.
+        /// </summary>
+        /// <param name="id">Id of the value.</param>
+        /// <returns>A value.</returns>
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
