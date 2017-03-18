@@ -65,7 +65,7 @@ namespace aspnetapp
 
                 //Set the comments path for the swagger json and ui.
                 var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var xmlPath = System.IO.Path.Combine(basePath, "AlbumApi.xml");
+                var xmlPath = System.IO.Path.Combine(basePath, "albumapi.xml");
                 c.IncludeXmlComments(xmlPath);
 
             });
