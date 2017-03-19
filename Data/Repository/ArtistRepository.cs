@@ -5,7 +5,8 @@ using aspnetapp.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-
+using AutoMapper;
+using aspnetapp.Models;
 
 namespace aspnetapp.Data.Repository
 {
@@ -15,6 +16,7 @@ namespace aspnetapp.Data.Repository
             : base(context)
         { }
 
+        /*
         public async Task<List<Artists>> GetArtists()
         {
             return await Context.Artists
@@ -22,7 +24,19 @@ namespace aspnetapp.Data.Repository
                     .ToListAsync();
 
         }
+        */
 
+        public async Task<List<Artist>> GetArtists()
+        {
+            var result =  await Context.Artists
+                    .OrderBy(x => x.ArtistName)
+                    .ToListAsync();
+
+
+            return Mapper.Map<List<Artists>,List<Artist>>(result);
+            
+
+        }
        
     }
 

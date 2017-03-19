@@ -15,9 +15,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 
 using aspnetapp.Data.Repository;
 using AutoMapper;
-
-
-
+using aspnetapp.Models;
 
 namespace aspnetapp
 {
@@ -56,7 +54,7 @@ namespace aspnetapp
             services.AddAutoMapper(ConfigureAutoMapper);
 
 
-            
+
 
             
 
@@ -118,7 +116,7 @@ namespace aspnetapp
 
         private void ConfigureAutoMapper(IMapperConfigurationExpression config)
         {
-
+                config.CreateMap<Artists,Artist>();
         }
 
 
