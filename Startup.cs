@@ -13,8 +13,9 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.PlatformAbstractions;
 
 
-
 using aspnetapp.Data.Repository;
+using AutoMapper;
+using aspnetapp.Models;
 
 namespace aspnetapp
 {
@@ -48,6 +49,15 @@ namespace aspnetapp
 
             // Add framework services.
             services.AddMvc();
+
+
+            services.AddAutoMapper(ConfigureAutoMapper);
+
+
+
+
+            
+
 
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -103,5 +113,13 @@ namespace aspnetapp
              startupLogger.LogInformation("Application startup is complete");
              
         }
+
+        private void ConfigureAutoMapper(IMapperConfigurationExpression config)
+        {
+                config.CreateMap<Artists,Artist>();
+        }
+
+
+
     }
 }

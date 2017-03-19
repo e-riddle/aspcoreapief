@@ -1,15 +1,13 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using aspnetapp.Data.Models;
 using aspnetapp.Data.Repository;
+using aspnetapp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace aspnetapp.Controllers
 {
-    
+
     public class ArtistController : Controller
     {
 
@@ -33,14 +31,14 @@ namespace aspnetapp.Controllers
         /// <returns>Artists</returns>
         // GET api/values
         [HttpGet("api/artists")]
-        public async Task<List<Artists>> Get()
+        public async Task<List<Artist>> Get()
         {
 
 
             this._logger.LogInformation("Getting artists...");
-
+            
             return await this._artistRepository.GetArtists();
-
+            
             
         }
 
