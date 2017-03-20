@@ -7,8 +7,8 @@ using Microsoft.Extensions.Logging;
 
 namespace aspnetapp.Controllers
 {
-
-    public class ArtistController : Controller
+    [Route("api/[controller]")]
+    public class ArtistsController : Controller
     {
 
     
@@ -17,7 +17,7 @@ namespace aspnetapp.Controllers
         private readonly ILogger _logger;
 
 
-        public ArtistController(ArtistRepository artistRepository, ILogger<ArtistController> logger)
+        public ArtistsController(ArtistRepository artistRepository, ILogger<ArtistsController> logger)
         {
            
             this._artistRepository = artistRepository;
@@ -34,14 +34,14 @@ namespace aspnetapp.Controllers
         /// <response code="200" >Success</response>
         /// <response code="400">Client Parameter Error</response>
         /// <response code="500">Internal Server Error</response>       
-        [HttpGet("api/artists")]
+        [HttpGet]
         [ProducesResponseType(typeof(Artist[]), 200)]
         [ProducesResponseType(typeof(string), 400)]
         [ProducesResponseType(typeof(string), 500)]
         public async Task<List<Artist>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 15)
         {
 
-            
+
            
             
             return await this._artistRepository.GetArtists(page, pageSize);

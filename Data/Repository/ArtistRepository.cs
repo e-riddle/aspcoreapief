@@ -16,16 +16,7 @@ namespace aspnetapp.Data.Repository
             : base(context)
         { }
 
-        /*
-        public async Task<List<Artists>> GetArtists()
-        {
-            return await Context.Artists
-                    .OrderBy(x => x.ArtistName)
-                    .ToListAsync();
-
-        }
-        */
-
+        
         public async Task<List<Artist>> GetArtists(int page = 1, int pageSize = 15)
         {
             var artists =  Context.Artists
