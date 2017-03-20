@@ -26,14 +26,16 @@ namespace aspnetapp.Data.Repository
         }
         */
 
-        public async Task<List<Artist>> GetArtists()
+        public async Task<List<Artist>> GetArtists(int page = 1, int pageSize = 15)
         {
-            var result =  await Context.Artists
-                    .OrderBy(x => x.ArtistName)
-                    .ToListAsync();
+            var artists =  Context.Artists
+                            .OrderBy(x => x.ArtistName)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            ;
+            
 
-
-            return Mapper.Map<List<Artists>,List<Artist>>(result);
+            return Mapper.Map<List<Artists>,List<Artist>>(await artists.ToListAsync());
             
 
         }

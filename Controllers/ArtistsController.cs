@@ -29,15 +29,22 @@ namespace aspnetapp.Controllers
         /// Gets me a list of artits
         /// </summary>
         /// <returns>Artists</returns>
-        // GET api/values
+        /// <param name="page">Page number.</param>
+        /// <param name="pageSize">Page Size.</param>
+        /// <response code="200" >Success</response>
+        /// <response code="400">Client Parameter Error</response>
+        /// <response code="500">Internal Server Error</response>       
         [HttpGet("api/artists")]
-        public async Task<List<Artist>> Get()
+        [ProducesResponseType(typeof(Artist[]), 200)]
+        [ProducesResponseType(typeof(string), 400)]
+        [ProducesResponseType(typeof(string), 500)]
+        public async Task<List<Artist>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 15)
         {
 
-
-            this._logger.LogInformation("Getting artists...");
             
-            return await this._artistRepository.GetArtists();
+           
+            
+            return await this._artistRepository.GetArtists(page, pageSize);
             
             
         }
