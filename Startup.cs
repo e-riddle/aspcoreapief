@@ -117,6 +117,9 @@ namespace aspnetapp
         private void ConfigureAutoMapper(IMapperConfigurationExpression config)
         {
                 config.CreateMap<Artists,Artist>();
+
+                config.CreateMap<Albums,Album>();
+
         }
 
 

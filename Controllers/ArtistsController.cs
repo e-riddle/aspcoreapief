@@ -16,7 +16,7 @@ namespace aspnetapp.Controllers
 
         private readonly ILogger _logger;
 
-
+        
         public ArtistsController(ArtistRepository artistRepository, ILogger<ArtistsController> logger)
         {
            
@@ -49,6 +49,12 @@ namespace aspnetapp.Controllers
             
         }
 
+
+        [HttpGet("{id}")]
+        public async Task<List<Artist>> Get(int id)
+        {
+             return await this._artistRepository.GetArtist(id);
+        }
        
     }
 }

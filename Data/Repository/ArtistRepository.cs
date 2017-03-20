@@ -16,7 +16,7 @@ namespace aspnetapp.Data.Repository
             : base(context)
         { }
 
-        
+
         public async Task<List<Artist>> GetArtists(int page = 1, int pageSize = 15)
         {
             var artists =  Context.Artists
@@ -30,6 +30,21 @@ namespace aspnetapp.Data.Repository
             
 
         }
+
+
+         public async Task<List<Artist>> GetArtist(int id)
+        {
+            var artists =  Context.Artists
+                            .Include(x => x.Albums)
+                            .Where(x => x.Id == id)
+                            ;
+            
+
+            return Mapper.Map<List<Artists>,List<Artist>>(await artists.ToListAsync());
+            
+
+        }
+
        
     }
 
