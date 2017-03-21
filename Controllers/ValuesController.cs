@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace aspnetapp.Controllers
 {
     [Route("api/v1/[controller]")]
-    public class ValuesController : BaseController
+    public class ValuesController : BaseController<ValuesController>
     {
+
+         public ValuesController(ILogger<ValuesController> logger) : base (logger) {}
+           
          /// <summary>
         /// Get me some values
         /// </summary>

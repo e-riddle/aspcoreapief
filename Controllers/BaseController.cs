@@ -9,9 +9,16 @@ using Microsoft.Extensions.Primitives;
 namespace aspnetapp.Controllers
 {
     [Route("api/v1/[controller]")]
-    public class BaseController : Controller
+    public class BaseController<T> : Controller
     {
-        
+        protected ILogger _logger;
+
+         public BaseController(ILogger<T> logger)
+         {
+           
+            this._logger = logger;
+         }
+
         /// <summary>
         /// For tracking the request.
         /// </summary>
@@ -28,9 +35,9 @@ namespace aspnetapp.Controllers
                 this.HttpContext.Request.Headers.TryGetValue("TrackingIdProtected", out trackingIdValues);
 
                 if (trackingIdValues.Any())
-                        trackingId = trackingIdValues.FirstOrDefault() ??  "Not Provided";
+                        trackingId = trackingIdValues.FirstOrDefault();
 
-                return trackingId;
+                return string.IsNullOrEmpty(trackingId) ? "Not Provided" : trackingId;
 
                 
             } 
@@ -55,9 +62,12 @@ namespace aspnetapp.Controllers
                     this.HttpContext.Request.Headers.TryGetValue("AuthUserProtected", out authIdValues);
                     
                     if (authIdValues.Any())
-                        authId = authIdValues.FirstOrDefault() ??  "Not Provided";
+                        authId = authIdValues.FirstOrDefault();
                     
-                    return authId;
+                    
+                    return string.IsNullOrEmpty(authId) ? "Not Provided" : authId;
+
+                    
 
             } 
             set 
@@ -77,9 +87,17 @@ namespace aspnetapp.Controllers
 
             this.RequestTrackingId = requestTrackingId;
 
+            this.LogRequestInformation("Initialized request.");
+
         }
 
-        
+
+        protected void LogRequestInformation(string message)
+        {
+              var fullMessage = $"[TrackingId: {this.RequestTrackingId} / User: {this.AuthUserId}] - {message}";
+
+              this._logger.LogInformation(fullMessage);
+        }
           
     }
 }

@@ -8,21 +8,17 @@ using Microsoft.Extensions.Logging;
 namespace aspnetapp.Controllers
 {
     [Route("api/v1/[controller]")]
-    public class ArtistsController : BaseController
+    public class ArtistsController : BaseController<ArtistsController>
     {
 
-    
         private readonly ArtistRepository _artistRepository;
 
-        private readonly ILogger _logger;
-
-        
-        public ArtistsController(ArtistRepository artistRepository, ILogger<ArtistsController> logger)
+        public ArtistsController(ArtistRepository artistRepository, ILogger<ArtistsController> logger) : base (logger)
         {
            
             this._artistRepository = artistRepository;
 
-            this._logger = logger;
+          
         }
 
         /// <summary>

@@ -47,6 +47,7 @@ namespace aspnetapp
 
             services.AddTransient<ArtistRepository>();
 
+           
             // Add framework services.
             services.AddMvc(
                  config => { 
@@ -56,11 +57,6 @@ namespace aspnetapp
 
             
             services.AddAutoMapper(ConfigureAutoMapper);
-
-
-
-
-            
 
 
             // Register the Swagger generator, defining one or more Swagger documents
@@ -95,7 +91,7 @@ namespace aspnetapp
                 app.UseDeveloperExceptionPage();
             }
 
-             var startupLogger = loggerFactory.CreateLogger<Startup>();
+            var startupLogger = loggerFactory.CreateLogger<Startup>();
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
