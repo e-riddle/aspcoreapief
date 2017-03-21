@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 
 namespace aspnetapp.Controllers
 {
@@ -11,11 +12,26 @@ namespace aspnetapp.Controllers
     public class BaseController : Controller
     {
         
+        /// <summary>
+        /// For tracking the request.
+        /// </summary>
+        /// <returns></returns>
         protected string RequestTrackingId 
         {
             get
             {
-                return this.HttpContext.Request.Headers["TrackingIdProtected"];
+               
+                var trackingId = "Not Provided";
+
+                StringValues trackingIdValues;
+
+                this.HttpContext.Request.Headers.TryGetValue("TrackingIdProtected", out trackingIdValues);
+
+                if (trackingIdValues.Any())
+                        trackingId = trackingIdValues.FirstOrDefault() ??  "Not Provided";
+
+                return trackingId;
+
                 
             } 
             set 
@@ -24,10 +40,25 @@ namespace aspnetapp.Controllers
             }
         }
 
+        ///<summary>
+        /// For tracking the user id.
+        /// </summary>
+        /// <returns></returns>
         protected string AuthUserId {
             get
             {
-                return this.HttpContext.Request.Headers["AuthUserProtected"];
+                    
+                    var authId = "Not Provided";
+
+                    StringValues authIdValues;
+
+                    this.HttpContext.Request.Headers.TryGetValue("AuthUserProtected", out authIdValues);
+                    
+                    if (authIdValues.Any())
+                        authId = authIdValues.FirstOrDefault() ??  "Not Provided";
+                    
+                    return authId;
+
             } 
             set 
             {
@@ -35,7 +66,11 @@ namespace aspnetapp.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Gets the tracking ids
+        /// </summary>
+        /// <param name="requestTrackingId"></param>
+        /// <param name="authUserId"></param>
         protected void InitializeRequest (string requestTrackingId, string authUserId)
         {
             this.AuthUserId = authUserId;
@@ -43,8 +78,8 @@ namespace aspnetapp.Controllers
             this.RequestTrackingId = requestTrackingId;
 
         }
-        
 
+        
           
     }
 }
