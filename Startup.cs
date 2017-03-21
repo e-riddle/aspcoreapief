@@ -48,9 +48,13 @@ namespace aspnetapp
             services.AddTransient<ArtistRepository>();
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(
+                 config => { 
+                        config.Filters.Add(typeof(ApiExceptionFilter));
+                    }
+            );
 
-
+            
             services.AddAutoMapper(ConfigureAutoMapper);
 
 

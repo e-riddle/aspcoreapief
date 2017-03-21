@@ -29,7 +29,13 @@ namespace aspnetapp.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+
+            //throw new Exception("Bad id");
+
+            throw new BadRequestException("Bad id");
+
+
+            //return "value";
         }
 
         /// <summary>
