@@ -48,14 +48,11 @@ namespace aspnetapp.Controllers
                                         [FromHeader] string requestTrackingId = "")
         {
 
-            //throw new Exception("Bad id");
             this.InitializeRequest(requestTrackingId, authUserId);
             
-
             throw new BadRequestException("Bad id");
 
 
-            //return "value";
         }
 
         /// <summary>
