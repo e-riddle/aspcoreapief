@@ -1,9 +1,9 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.Extensions.Primitives;
 
 public class ApiExceptionFilter : IExceptionFilter
 {
@@ -18,6 +18,9 @@ public class ApiExceptionFilter : IExceptionFilter
         }
 
         _logger = loggerFactory.CreateLogger<ApiExceptionFilter>();
+
+        _logger.LogInformation("Api exception filter has successfully initialized.");
+
     }
 
     public void OnException(ExceptionContext context)
@@ -54,9 +57,34 @@ public class ApiExceptionFilter : IExceptionFilter
         response.StatusCode = (int)status;
         response.ContentType = "application/json";
 
-        var err = message + " " + context.Exception.StackTrace;
+        //var err = message + " " + context.Exception.StackTrace;
+
+        
+        //Refactor this stuff!!!!!
+        var trackingId = "Not Provided";
+
+        var authId = "Not Provided";
+
+        StringValues trackingIdValues;
+
+        context.HttpContext.Request.Headers.TryGetValue("TrackingIdProtected", out trackingIdValues);
+
+        StringValues authIdValues;
+
+        context.HttpContext.Request.Headers.TryGetValue("AuthUserProtected", out authIdValues);
+
+        if (trackingIdValues.Any())
+            trackingId = trackingIdValues.FirstOrDefault() ??  "Not Provided";
+        
+        if (authIdValues.Any())
+            authId = authIdValues.FirstOrDefault() ??  "Not Provided";
+        
+
+
+        var err = $"[TrackingId: {trackingId} / User: {authId}] - {message} {context.Exception.StackTrace}";
 
         _logger.LogError(err);
+
 
         if (response.StatusCode == 500)
         {
