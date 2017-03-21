@@ -58,33 +58,13 @@ public class ApiExceptionFilter : IExceptionFilter
         response.ContentType = "application/json";
 
         //var err = message + " " + context.Exception.StackTrace;
-
         
-        //Refactor this stuff!!!!!
-        var trackingId = "Not Provided";
+        var headerInfo = this.GetHeaderInfo(context.HttpContext);
 
-        var authId = "Not Provided";
-
-        StringValues trackingIdValues;
-
-        context.HttpContext.Request.Headers.TryGetValue("TrackingIdProtected", out trackingIdValues);
-
-        StringValues authIdValues;
-
-        context.HttpContext.Request.Headers.TryGetValue("AuthUserProtected", out authIdValues);
-
-        if (trackingIdValues.Any())
-            trackingId = trackingIdValues.FirstOrDefault() ??  "Not Provided";
-        
-        if (authIdValues.Any())
-            authId = authIdValues.FirstOrDefault() ??  "Not Provided";
-        
-
-
-        var err = $"[TrackingId: {trackingId} / User: {authId}] - {message} {context.Exception.StackTrace}";
+        var err = $"[TrackingId: {headerInfo.Item1} / User: {headerInfo.Item2}] - {message} {context.Exception.StackTrace}";
 
         _logger.LogError(err);
-
+        
 
         if (response.StatusCode == 500)
         {
@@ -97,4 +77,33 @@ public class ApiExceptionFilter : IExceptionFilter
 
 
     }
+
+
+    private Tuple<string,string> GetHeaderInfo(HttpContext context)
+    {
+          //Refactor this stuff!!!!!
+        var trackingId = "Not Provided";
+
+        var authId = "Not Provided";
+
+        StringValues trackingIdValues;
+
+        context.Request.Headers.TryGetValue("TrackingIdProtected", out trackingIdValues);
+
+        StringValues authIdValues;
+
+        context.Request.Headers.TryGetValue("AuthUserProtected", out authIdValues);
+
+        if (trackingIdValues.Any())
+            trackingId = trackingIdValues.FirstOrDefault();
+        
+        if (authIdValues.Any())
+            authId = authIdValues.FirstOrDefault();
+
+
+        return new Tuple<string,string>(string.IsNullOrEmpty(trackingId) ? "Not Provided" : trackingId,
+                                         string.IsNullOrEmpty(authId) ? "Not Provided" : authId);
+    }
+
+
 }
