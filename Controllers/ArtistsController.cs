@@ -7,22 +7,18 @@ using Microsoft.Extensions.Logging;
 
 namespace aspnetapp.Controllers
 {
-    [Route("api/[controller]")]
-    public class ArtistsController : Controller
+    [Route("api/v1/[controller]")]
+    public class ArtistsController : BaseController<ArtistsController>
     {
 
-    
         private readonly ArtistRepository _artistRepository;
 
-        private readonly ILogger _logger;
-
-        
-        public ArtistsController(ArtistRepository artistRepository, ILogger<ArtistsController> logger)
+        public ArtistsController(ArtistRepository artistRepository, ILogger<ArtistsController> logger) : base (logger)
         {
            
             this._artistRepository = artistRepository;
 
-            this._logger = logger;
+          
         }
 
         /// <summary>
@@ -30,7 +26,9 @@ namespace aspnetapp.Controllers
         /// </summary>
         /// <returns>Artists</returns>
         /// <param name="page">Page number.</param>
-        /// <param name="pageSize">Page Size.</param>
+        /// <param name="pageSize">Page size.</param>
+        /// <param name="authUserId">Auth user id.</param>
+        /// <param name="requestTrackingId">Request tracking id.</param>
         /// <response code="200" >Success</response>
         /// <response code="400">Client Parameter Error</response>
         /// <response code="500">Internal Server Error</response>       
@@ -38,7 +36,10 @@ namespace aspnetapp.Controllers
         [ProducesResponseType(typeof(Artist[]), 200)]
         [ProducesResponseType(typeof(string), 400)]
         [ProducesResponseType(typeof(string), 500)]
-        public async Task<List<Artist>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 15)
+        public async Task<List<Artist>> Get([FromQuery] int page = 1, 
+                                            [FromQuery] int pageSize = 15,
+                                            [FromHeader] string authUserId = "",
+                                            [FromHeader] string requestTrackingId = "")
         {
 
 

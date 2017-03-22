@@ -3,21 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace aspnetapp.Controllers
 {
-    [Route("api/[controller]")]
-    public class ValuesController : Controller
+    [Route("api/v1/[controller]")]
+    public class ValuesController : BaseController<ValuesController>
     {
+
+         public ValuesController(ILogger<ValuesController> logger) : base (logger) {}
+           
          /// <summary>
         /// Get me some values
         /// </summary>
         /// <returns>string</returns>
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<string> Get(
+                                        [FromHeader] string authUserId = "",
+                                        [FromHeader] string requestTrackingId = "")
         {
-            return new string[] { "value1", "value2" };
+
+            this.InitializeRequest(requestTrackingId, authUserId);
+
+
+            var values =  new string[] { "value1", "value2" };
+
+
+
+            return values;
+
+
+            
         }
 
         /// <summary>
@@ -27,15 +44,15 @@ namespace aspnetapp.Controllers
         /// <returns>A value.</returns>
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string Get(int id,  [FromHeader] string authUserId = "",
+                                        [FromHeader] string requestTrackingId = "")
         {
 
-            //throw new Exception("Bad id");
-
+            this.InitializeRequest(requestTrackingId, authUserId);
+            
             throw new BadRequestException("Bad id");
 
 
-            //return "value";
         }
 
         /// <summary>
