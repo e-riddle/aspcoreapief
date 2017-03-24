@@ -51,8 +51,9 @@ namespace aspnetapp
             // Add framework services.
             services.AddMvc(
                  config => { 
-                        config.Filters.Add(typeof(ApiExceptionFilter));
-                    }
+                            config.Filters.Add(typeof(ApiExceptionFilter)); 
+                            config.Filters.Add(typeof(ApiActionFilter)); 
+                            }
             );
 
             
